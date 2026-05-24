@@ -35,7 +35,7 @@ else:
     st.sidebar.subheader("🎯 Scanner-Typ")
     scanner_type = st.sidebar.radio(
         "Wähle Modus:",
-        ["⚡ Quick Scan (Top 100)", "📊 Standard Scan (S&P 500)", "💾 Watchlist Scan"],
+        ["⚡ Quick Scan (Top 100)", "📊 Standard Scan (ALLE)", "💾 Watchlist Scan"],
         index=0
     )
     
@@ -117,9 +117,7 @@ else:
 
 st.sidebar.markdown("---")
 st.sidebar.caption("⚠️ Keine Finanzberatung!")
-st.sidebar.caption("📊 Yahoo Finance (verzögert)")
-
-# =============================================
+st.sidebar.caption("📊 Yahoo Finance (verzögert)")# =============================================
 # ALLE TICKER (S&P 500 + NASDAQ 100 + Russell 2000 + DAX 40)
 # =============================================
 @st.cache_data(ttl=86400)
@@ -258,9 +256,7 @@ def run_scan(tickers, max_workers=10):
             status_text.text("Scanne " + str(completed) + "/" + str(total) + " | " + str(len(results)) + " Treffer")
     progress_bar.empty()
     status_text.empty()
-    return pd.DataFrame(results) if results else pd.DataFrame()
-
-# MAIN
+    return pd.DataFrame(results) if results else pd.DataFrame()# MAIN
 if mode == "📈 Einzelanalyse":
     st.title("📈 " + ticker_input + " - Analyse")
     try:
@@ -313,4 +309,6 @@ else:
         
         st.markdown("Scanne " + str(len(tickers)) + " Aktien...")
         start_time = time.time()
-        df_results = run_scan(tickers, max_workers=
+        
+        if scanner_type == "📊 Standard Scan (ALLE)":
+            df_results = run_
