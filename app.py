@@ -310,7 +310,3 @@ else:
             tickers = get_all_tickers()
             if scanner_type == "⚡ Quick Scan (Top 100)":
                 tickers = tickers[:100]
-        
-        st.markdown("Scanne " + str(len(tickers)) + " Aktien...")
-        start_time = time.time()
-        df_results = run_scan(tickers, max_workers=
