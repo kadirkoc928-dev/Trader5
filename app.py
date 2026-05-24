@@ -311,7 +311,8 @@ else:
         start_time = time.time()
         
         if scanner_type == "📊 Standard Scan (ALLE)":
-            df_results = run_scan(tickers)        end_time = time.time()
+            df_results = run_scan(tickers)
+            end_time = time.time()
         scan_time = round(end_time - start_time, 2)
 
         if df_results.empty:
