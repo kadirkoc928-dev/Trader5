@@ -311,4 +311,56 @@ else:
         start_time = time.time()
         
         if scanner_type == "📊 Standard Scan (ALLE)":
-            df_results = run_scan(tickers)
+            df_results = run_scan(tickers)        end_time = time.time()
+        scan_time = round(end_time - start_time, 2)
+
+        if df_results.empty:
+            st.warning("❌ Keine Treffer gefunden!")
+        else:
+
+            # FILTER
+            df_results = df_results[
+                (df_results['Swing-Score'] >= min_swing_score) &
+                (df_results['RSI'] >= rsi_min) &
+                (df_results['RSI'] <= rsi_max) &
+                (df_results['ADX'] >= adx_min) &
+                (df_results['Vol Ratio'] >= volume_surge_min)
+            ]
+
+            if require_sma_above:
+                df_results = df_results[
+                    df_results['SMA20'] == 'Above'
+                ]
+
+            if require_macd_bullish:
+                df_results = df_results[
+                    df_results['MACD'] == 'Bullish'
+                ]
+
+            # SORTIEREN
+            df_results = df_results.sort_values(
+                by='Swing-Score',
+                ascending=False
+            )
+
+            # INFO
+            st.success(
+                f"✅ {len(df_results)} Treffer gefunden | Zeit: {scan_time}s"
+            )
+
+            # TABELLE
+            st.dataframe(
+                df_results,
+                use_container_width=True,
+                height=650
+            )
+
+            # CSV DOWNLOAD
+            csv = df_results.to_csv(index=False).encode('utf-8')
+
+            st.download_button(
+                "📥 Ergebnisse herunterladen",
+                csv,
+                "scanner_results.csv",
+                "text/csv"
+            )
