@@ -89,6 +89,8 @@ else:
         require_sma_above = st.sidebar.checkbox("Kurs > SMA20", value=False)
         require_macd_bullish = st.sidebar.checkbox("MACD bullisch", value=False)
     
+    max_price = 10000.0
+    
     # Watchlist
     st.sidebar.markdown("---")
     st.sidebar.subheader("💾 Watchlist")
@@ -116,7 +118,7 @@ else:
 st.sidebar.markdown("---")
 st.sidebar.caption("⚠️ Keine Finanzberatung!")
 st.sidebar.caption("📊 Yahoo Finance (verzögert)")# =============================================
-# ALLE TICKER
+# ALLE TICKER (S&P 500 + NASDAQ 100 + Russell 2000 + DAX 40)
 # =============================================
 @st.cache_data(ttl=86400)
 def get_all_tickers():
@@ -309,6 +311,4 @@ else:
         start_time = time.time()
         
         if scanner_type == "📊 Standard Scan (ALLE)":
-            df_results = run_scan(tickers, max_workers=20)
-        else:
-            df_results =
+            df_results = run_scan(tickers)
